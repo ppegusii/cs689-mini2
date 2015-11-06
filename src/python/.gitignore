@@ -56,4 +56,12 @@ docs/_build/
 # PyBuilder
 target/
 
+# data directories
+data_archive/
 data/
+
+# GloVe won't be touched so no need to track.
+glove/
+
+# Vim
+*.swp
