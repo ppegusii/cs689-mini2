@@ -10,7 +10,9 @@
 %*************** YOU CAN CUSTOMIZE THIS ***************************
 %fileloc =[pwd,'/'];  %load the data stored in directory fileloc	
 fileloc =[pwd,'/../../data/'];  %load the data stored in directory fileloc	
-resultloc = [fileloc,'/results_15_3/'];  % store the output in this subdirectory
+%resultloc = [fileloc,'/results_15_3/'];  % store the output in this subdirectory
+resultloc = [pwd,'/../../results/mog_hmm/hs10_mc1/'];  % store the output in this subdirectory
+
 
 % DBN Information
 ss        = 3;       % nodes per time slice
@@ -19,8 +21,10 @@ mixt      = 2;
 obs       = 3;
 nextState = 4;
 ns = zeros(1,ss);    % node sizes
-ns(state) = 15;       % num hidden states: VARY THIS
-ns(mixt)  = 3;       % num mixture components per state: VARY THIS 
+%ns(state) = 10;       % num hidden states: VARY THIS
+%ns(mixt)  = 2;       % num mixture components per state: VARY THIS 
+ns(state) = 10;       % num hidden states: VARY THIS
+ns(mixt)  = 1;       % num mixture components per state: VARY THIS 
 ns(obs)   = 2;       % size of observed vector
 
 % DBN Links
