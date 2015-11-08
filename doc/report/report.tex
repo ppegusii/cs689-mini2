@@ -104,6 +104,7 @@ tabsize=2, % Number of spaces per tab in the code
 \newcommand*{\al}{\alpha}
 \newcommand*{\be}{\beta}
 \newcommand*{\de}{\delta}
+\newcommand*{\la}{\lambda}
 \newcommand*{\om}{\omega}
 \newcommand*{\ep}{\epsilon}
 \begin{document}
@@ -130,28 +131,42 @@ Prof. Sridhar Mahadevan
 				The state variables at time $t$ are conditionally independent of the past history of state variables given the state variables at $t-1$ because those given variables d-separate them from past states.
 			\item
 				To convert the factorial HMM to a regular HMM, collapse states $S(t,1),\dots S(t,M)$ to a single state $S(t)$ that has $K^M$ values, which is enough to represent all possible state combinations of the former states.
-				Since the time complexity of the forward algorithm on an HMM is $O(L^2T)$ where $L$ is the number of state values, the complexit of the converted HMM is $O\left(\left(K^{M}\right)^2T\right)=O(K^{2M}T)$.
+				Since the time complexity of the forward algorithm on an HMM is $O(L^2T)$ where $L$ is the number of state values, the complexity of the converted HMM is $O\left(\left(K^{M}\right)^2T\right)=O(K^{2M}T)$.
 		\end{enumerate}
 	\item
 		\begin{enumerate}
 			\item
 				\begin{description}
-					\item[Derive Lagrangian]
-%						Define functions:
-%						\begin{align*}
-%							f_0(w) &= \sum_{i=1}^l \xi_i^2 \\
-%							g(w) &= -\|w\|^2 \\
-%							h_i(w) &= y_i - \langle w,x_i\rangle - \xi_i \\
-%						\end{align*}
-%						Langrangian:
-						\begin{align*}
-							L(w,\al) = \sum_{i=1}^l \left(y_i - \langle w,x_i\rangle\right)^2 - \al \|w\|^2
-						\end{align*}
 					\item[Lagrange dual]
 						\begin{align*}
-							\max_{\al:\al\ge 0} L_D(\al) = \min_{w}L(w,\al)
+							L(w,\xi,\al) &= \la\|w\|^2 +\sum_{i=1}^l\xi_i^2+\sum_{i=1}^l\al_i(y_i - \langle w, x_i \rangle - \xi_i) \\
+							\max_\al &\left(L_D(\al) = \min_{w,\xi}L(w,\xi,\al)\right)
+						\end{align*}
+					\item[Assure 0 duality gap]
+						\begin{align*}
+							0 &= \frac{\de}{\de w}L(w,\xi,\al)
+							= 2\la w - \sum_{i=1}^l\al_i x_i \iff
+							w = \frac{1}{2\la}\sum_{i=1}^l\al_i x_i \\
+							0 &= \frac{\de}{\de \xi_k}L(w,\xi,\al)
+							= 2\xi_k-\al_k \iff \xi_k = \frac{\al_k}{2} \\
+							L_D(\al)
+							&= \la\| \frac{1}{2\la}\sum_{i=1}^l\al_i x_i \|^2 +\sum_{i=1}^l\left( \frac{\al_i}{2} \right)^2+\sum_{i=1}^l\al_i(y_i - \langle \frac{1}{2\la}\sum_{j=1}^l\al_j x_j, x_i \rangle - \frac{\al_i}{2}) \\
+							&= \frac{1}{4\la}\| \sum_{i=1}^l\al_i x_i \|^2 +\sum_{i=1}^l \frac{\al_i^2}{4} +\sum_{i=1}^l\al_iy_i - \frac{1}{2\la}\sum_{i=1}^l\al_i\langle \sum_{j=1}^l\al_j x_j, x_i \rangle - \sum_{i=1}^l \frac{\al_i^2}{2} \\
+							&= \frac{1}{4\la}\sum_{i=1}^l\al_i\langle \sum_{j=1}^l\al_j x_j, x_i \rangle -\sum_{i=1}^l \frac{\al_i^2}{4} +\sum_{i=1}^l\al_iy_i - \frac{1}{2\la}\sum_{i=1}^l\al_i\langle \sum_{j=1}^l\al_j x_j, x_i \rangle \\
+							&= \sum_{i=1}^l\al_iy_i - \frac{1}{4\la}\sum_{i=1}^l\al_i\langle \sum_{j=1}^l\al_j x_j, x_i \rangle -\sum_{i=1}^l \frac{\al_i^2}{4} \\
+							&= \sum_{i=1}^l\al_iy_i - \frac{1}{4\la}\sum_{i=1}^l\al_i \sum_{j=1}^l\al_j \langle x_j, x_i \rangle -\sum_{i=1}^l \frac{\al_i^2}{4} \\
 						\end{align*}
 				\end{description}
+			\item Solution to kernel ridge regression occurs when $\frac{\de}{\de \al}L_D(\al)=0$.
+				\begin{align*}
+					0 &= \frac{\de}{\de \al}L_D(\al)
+					= \ldots \text{working backwards, but can't figure out this step} \ldots
+					= y -\frac{G\al}{2\la} - \frac{\al}{2} \\
+					0 &= y - \left(G + \la I\right)\frac{\al}{2\la} \\
+					\left(G + \la I\right)\frac{\al}{2\la} &= y \\
+					\frac{\al}{2\la} &= \left(G + \la I\right)^{-1}y \\
+					\al &= 2\la\left(G + \la I\right)^{-1}y \\
+				\end{align*}
 		\end{enumerate}
 \end{enumerate}
 
