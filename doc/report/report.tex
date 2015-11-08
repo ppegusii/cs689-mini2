@@ -159,9 +159,12 @@ Prof. Sridhar Mahadevan
 				\end{description}
 			\item Solution to kernel ridge regression occurs when $\frac{\de}{\de \al}L_D(\al)=0$.
 				\begin{align*}
-					0 &= \frac{\de}{\de \al}L_D(\al)
-					= \ldots \text{working backwards, but can't figure out this step} \ldots
+					0 &= \frac{\de}{\de \al_k}L_D(\al) \\
+					0 &= y_k -\frac{1}{4\la}\left( 2\sum_{i=1}^l \al_i\langle x_k, x_i \rangle \right) - \frac{\al_k}{2} \iff
+					\frac{\de}{\de \al}L_D(\al)
 					= y -\frac{G\al}{2\la} - \frac{\al}{2} \\
+%					= \ldots \text{working backwards, but can't figure out this step} \ldots
+					0 &= y -\frac{G\al}{2\la} - \frac{\al}{2} \\
 					0 &= y - \left(G + \la I\right)\frac{\al}{2\la} \\
 					\left(G + \la I\right)\frac{\al}{2\la} &= y \\
 					\frac{\al}{2\la} &= \left(G + \la I\right)^{-1}y \\
