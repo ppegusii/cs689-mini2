@@ -11,7 +11,7 @@
 %fileloc =[pwd,'/'];  %load the data stored in directory fileloc	
 fileloc =[pwd,'/../../data/'];  %load the data stored in directory fileloc	
 %resultloc = [fileloc,'/results_15_3/'];  % store the output in this subdirectory
-resultloc = [pwd,'/../../results/mog_hmm/hs10_mc1/'];  % store the output in this subdirectory
+resultloc = [pwd,'/../../results/mog_hmm/hs7_mc6/'];  % store the output in this subdirectory
 
 
 % DBN Information
@@ -23,8 +23,8 @@ nextState = 4;
 ns = zeros(1,ss);    % node sizes
 %ns(state) = 10;       % num hidden states: VARY THIS
 %ns(mixt)  = 2;       % num mixture components per state: VARY THIS 
-ns(state) = 10;       % num hidden states: VARY THIS
-ns(mixt)  = 1;       % num mixture components per state: VARY THIS 
+ns(state) = 7;       % num hidden states: VARY THIS
+ns(mixt)  = 6;       % num mixture components per state: VARY THIS  (with a discrete HMM, this is number of observations)
 ns(obs)   = 2;       % size of observed vector
 
 % DBN Links
@@ -150,6 +150,10 @@ end;
 
 % Check the 5 test cases to see how they get categorized by the 7 Models
 for k=1:num_people
+    % added by pp to try and finish gathering results
+    %if (k<7)
+    %    continue;
+    %end;
    % Process test cases in the following order:  a, b, c, d, e, f, g
    testperson  = people(k,:);
    exp_results = [];                  % save experimental results (ie. log likelihoods) in a matrix

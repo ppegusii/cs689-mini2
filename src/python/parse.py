@@ -8,7 +8,7 @@ import sys
 
 
 # Returns training and testing data.
-def trainTestData(fileNames, beginTestIdx=11, featureCnt=15):
+def trainTestData(fileNames, beginTestIdx=11, featureCnt=25):
     train, test = separateTrainTest(fileNames, beginTestIdx)
     trainXY = list(matrixXY(train, featureCnt))
     # print('trainXY[0].shape = {:s}'.format(trainXY[0].shape))
@@ -60,7 +60,11 @@ def matrixXY(defDictFiles, featureCnt):
 # containing [[height,width],n_samples]
 def extractFeatures(df):
     v = df.values
-    return v[:, 0]**2 / v[:, 1]
+    # return v[:, 0]**2 / v[:, 1]  # best for KNN
+    # return v[:, 0] / v[:, 1]**2
+    # return v[:, 0]**-1.0 * v[:, 1]**-1.0
+    # return v[:, 0] * v[:, 1]  # best for SVM
+    # return v[:, 0]**2  * v[:, 1]  # best for SVM
 
 
 # If I were to resample assuming even robot sampling rate, I could:
@@ -76,6 +80,11 @@ def resample(df, length=15):
         print('Given length outside of the length of data [10,25]'.format(
             length))
         sys.exit()
+    # forward fill last value
+    fill = np.empty((25 - df.shape[0], df.shape[1],))
+    fill[:] = np.nan
+    df = df.append(pd.DataFrame(fill), ignore_index=True)
+    return df.fillna(method='ffill')
     # truncating
     if df.shape[0] < length:
         return None
